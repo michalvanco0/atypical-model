@@ -17,7 +17,7 @@ def main():
     model.load_state_dict(torch.load("cnn_mnist_bn.pt", map_location=device))
     model.eval()
 
-    correct_samples = torch.load("analysis_data/correct_high_conf.pt")
+    correct_samples = torch.load("analysis_data/correct_high_conf_bn.pt")
 
     epsilon = 0.15
     adv_examples = []

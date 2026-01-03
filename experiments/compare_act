@@ -7,7 +7,6 @@ import torch
 import torch.nn.functional as F
 
 from models.cnn import SimpleCNN
-from models.cnn_bn import SimpleCNN_BN
 from analysis.activations import ActivationExtractor
 
 
@@ -18,17 +17,11 @@ def activation_distance(a, b):
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # model = SimpleCNN().to(device)
-    # model.load_state_dict(torch.load("cnn_mnist.pt", map_location=device))
-
-    model = SimpleCNN_BN().to(device)
-    model.load_state_dict(torch.load("cnn_mnist_bn.pt", map_location=device))
-
+    model = SimpleCNN().to(device)
+    model.load_state_dict(torch.load("cnn_mnist.pt", map_location=device))
     model.eval()
 
-    # adv_data = torch.load("analysis_data/fgsm_adversarial.pt")
-    adv_data = torch.load("analysis_data/fgsm_adversarial_bn.pt")
-
+    adv_data = torch.load("analysis_data/fgsm_adversarial.pt")
 
     layers = ["conv1", "conv2", "fc1"]
     extractor = ActivationExtractor(model, layers)

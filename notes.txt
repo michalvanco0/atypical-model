@@ -1,0 +1,64 @@
+original
+
+Epoch 1: Loss=0.1790, Test Acc=0.9846
+Epoch 2: Loss=0.0487, Test Acc=0.9877
+Epoch 3: Loss=0.0331, Test Acc=0.9893
+Epoch 4: Loss=0.0243, Test Acc=0.9856
+Epoch 5: Loss=0.0171, Test Acc=0.9897
+Model saved to cnn_mnist.pt
+
+[Running] python -u "c:\Users\User\atypical-model\experiments\predictions.py"
+Saved 9757 high-confidence correct samples
+Saved 38 high-confidence wrong samples
+
+[Running] python -u "c:\Users\User\atypical-model\experiments\generate_fgsm.py"
+Saved 100 FGSM adversarial samples
+
+[Running] python -u "c:\Users\User\atypical-model\experiments\compare_act"
+conv1: average activation distance = 15.4173
+conv2: average activation distance = 35.4381
+fc1: average activation distance = 23.2374
+
+
+
+added bn
+[Running] python -u "c:\Users\User\atypical-model\experiments\train_bn.py"
+Epoch 1: Loss=0.1125, Test Acc=0.9825
+Epoch 2: Loss=0.0438, Test Acc=0.9801
+Epoch 3: Loss=0.0311, Test Acc=0.9853
+Epoch 4: Loss=0.0242, Test Acc=0.9853
+Epoch 5: Loss=0.0186, Test Acc=0.9909
+Model saved to cnn_mnist_bn.pt
+
+[Running] python -u "c:\Users\User\atypical-model\experiments\predictions_bn.py"
+Saved 9773 high-confidence correct samples
+Saved 39 high-confidence wrong samples
+
+[Running] python -u "c:\Users\User\atypical-model\experiments\generate_fgsm_bn.py"
+Saved 100 FGSM adversarial samples
+
+[Running] python -u "c:\Users\User\atypical-model\experiments\compare_act_bn.py"
+conv1: average activation distance = 5.1177
+conv2: average activation distance = 30.6832
+fc1: average activation distance = 48.8359
+
+gp
+[Running] python -u "c:\Users\User\atypical-model\experiments\train_gp.py"
+Epoch 1: Loss=0.1676, Test Acc=0.9839
+Epoch 2: Loss=0.0491, Test Acc=0.9852
+Epoch 3: Loss=0.0332, Test Acc=0.9851
+Epoch 4: Loss=0.0243, Test Acc=0.9901
+Epoch 5: Loss=0.0196, Test Acc=0.9896
+Saved cnn_mnist_gp.pt
+
+[Running] python -u "c:\Users\User\atypical-model\experiments\predictions_gp.py"
+Saved 9774 high-confidence correct samples
+Saved 34 high-confidence wrong samples
+
+[Running] python -u "c:\Users\User\atypical-model\experiments\generate_fgsm_gp.py"
+Saved 100 FGSM adversarial samples
+
+[Running] python -u "c:\Users\User\atypical-model\experiments\compare_act_gp.py"
+conv1: average activation distance = 14.2332
+conv2: average activation distance = 32.0811
+fc1: average activation distance = 22.7301

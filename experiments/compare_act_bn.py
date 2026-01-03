@@ -1,0 +1,58 @@
+from pyexpat import model
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+import torch
+import torch.nn.functional as F
+
+from models.cnn_bn import SimpleCNN_BN
+from analysis.activations import ActivationExtractor
+
+
+def activation_distance(a, b):
+    return torch.norm(a.flatten() - b.flatten()).item()
+
+
+def main():
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    model = SimpleCNN_BN().to(device)
+    model.load_state_dict(torch.load("cnn_mnist_bn.pt", map_location=device))
+    model.eval()
+
+    adv_data = torch.load("analysis_data/fgsm_adversarial_bn.pt")
+
+
+    layers = ["conv1", "conv2", "fc1"]
+    extractor = ActivationExtractor(model, layers)
+
+    distances = {layer: [] for layer in layers}
+
+    for sample in adv_data:
+        x = sample["original"].to(device)
+        x_adv = sample["adversarial"].to(device)
+
+        extractor.clear()
+        _ = model(x)
+        acts_orig = extractor.activations.copy()
+
+        extractor.clear()
+        _ = model(x_adv)
+        acts_adv = extractor.activations.copy()
+
+        for layer in layers:
+            d = activation_distance(
+                acts_orig[layer], acts_adv[layer]
+            )
+            distances[layer].append(d)
+
+    extractor.remove()
+
+    for layer in layers:
+        avg_dist = sum(distances[layer]) / len(distances[layer])
+        print(f"{layer}: average activation distance = {avg_dist:.4f}")
+
+
+if __name__ == "__main__":
+    main()
